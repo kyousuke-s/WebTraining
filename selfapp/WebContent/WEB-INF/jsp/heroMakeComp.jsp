@@ -12,9 +12,8 @@
 <p>
 <%= hero.getName() %><br>
 <%//for文でやってみる
-String str=(String)String.join(",",(String)hero.getStatus());
+
 %>
-<%= str %><br>
 </p>
 <form action="/selfapp/HeroMake" method="post">
 種族を選んで下さい<br>

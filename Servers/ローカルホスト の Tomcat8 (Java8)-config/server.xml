@@ -149,7 +149,7 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <Context docBase="jyan" path="/jyan" reloadable="false" source="org.eclipse.jst.jee.server:jyan"/><Context docBase="forwardLesson" path="/forwardLesson" reloadable="false" source="org.eclipse.jst.jee.server:forwardLesson"/><Context docBase="bmi" path="/bmi" reloadable="false" source="org.eclipse.jst.jee.server:bmi"/><Context docBase="selfapp" path="/selfapp" reloadable="false" source="org.eclipse.jst.jee.server:selfapp"/></Host>
+      <Context docBase="jyan" path="/jyan" reloadable="false" source="org.eclipse.jst.jee.server:jyan"/><Context docBase="forwardLesson" path="/forwardLesson" reloadable="false" source="org.eclipse.jst.jee.server:forwardLesson"/><Context docBase="bmi" path="/bmi" reloadable="false" source="org.eclipse.jst.jee.server:bmi"/><Context docBase="selfapp" path="/selfapp" reloadable="false" source="org.eclipse.jst.jee.server:selfapp"/><Context docBase="login" path="/login" reloadable="false" source="org.eclipse.jst.jee.server:login"/><Context docBase="applicationLesson" path="/applicationLesson" reloadable="false" source="org.eclipse.jst.jee.server:applicationLesson"/><Context docBase="docoTsubu" path="/docoTsubu" reloadable="false" source="org.eclipse.jst.jee.server:docoTsubu"/></Host>
     </Engine>
   </Service>
 </Server>
