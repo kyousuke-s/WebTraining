@@ -37,94 +37,9 @@ public class WordDAO {
 		}
 	}
 
-	public List<Word> getListBySearchWord(String searchWord, String mode) {
-		List<Word> list = new ArrayList<>();
-		switch (mode) {
-		case "startsWith":
-			searchWord = searchWord + "%";
-			break;
-		case "contains":
-			searchWord = "%" + searchWord + "%";
-			break;
-		case "endsWith":
-			searchWord = "%" + searchWord;
-		}
-		try {
-			this.connect();
-			ps = db.prepareStatement("SELECT * FROM words WHERE title LIKE ?");
-			ps.setString(1, searchWord);
-			System.out.println(ps);//SQL文をコンソールに表示して確認できる(デバッグ用)
-			rs=ps.executeQuery();//結果をセット
-			while (rs.next()) {
-				String title = rs.getString("title");
-				String body = rs.getString("body");
-				Word w = new Word(title, body);
-				list.add(w);
-			}
-		} catch (NamingException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				this.disconnect();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return list;
-	}
-
-	//引数にlimitを追加してオーバーロード
-	public List<Word> getListBySearchWord(String searchWord,String mode,int limit){
-		List<Word> list=new ArrayList<>();
-		switch(mode) {
-		case "startsWith":
-			searchWord=searchWord+"%";
-			break;
-		case "contains":
-			searchWord="%"+searchWord+"%";
-			break;
-		case "endsWith":
-			searchWord="%"+searchWord;
-		}
-		try {
-			this.connect();
-			ps = db.prepareStatement("SELECT * FROM words WHERE title LIKE ? LIMIT ?");
-			ps.setString(1, searchWord);
-			ps.setInt(2, limit);
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				int id = rs.getInt("id");
-				String title = rs.getString("title");
-				String body = rs.getString("body");
-				list.add(new Word(id, title, body));
-			}
-		} catch (NamingException | SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				this.disconnect();
-			} catch (SQLException e) {
-				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
-			}
-		}
-		return list;
-	}
-
 	public List<Word> getListBySearchWord(String searchWord,String mode,int limit,int offset){
 		List<Word> list=new ArrayList<>();
-		switch(mode) {
-		case "startsWith":
-			searchWord=searchWord+"%";
-			break;
-		case "contains":
-			searchWord="%"+searchWord+"%";
-			break;
-		case "endsWith":
-			searchWord="%"+searchWord;
-		}
+		searchWord=modifySearchWord(searchWord,mode);
 		try {
 			this.connect();
 			ps = db.prepareStatement("SELECT * FROM words WHERE title LIKE ? LIMIT ? OFFSET ?");
@@ -152,16 +67,7 @@ public class WordDAO {
 	}
 	//一致件数を求めるメソッド
 	public int getCount(String searchWord,String mode){
-		switch(mode) {
-		case "startsWith":
-			searchWord=searchWord+"%";
-			break;
-		case "contains":
-			searchWord="%"+searchWord+"%";
-			break;
-		case "endsWith":
-			searchWord="%"+searchWord;
-		}
+		searchWord=modifySearchWord(searchWord,mode);
 		int total=0;
 		try {
 			this.connect();
@@ -183,4 +89,17 @@ public class WordDAO {
 		return total;
 	}
 
+	private String modifySearchWord(String searchWord,String mode) {
+		switch(mode) {
+		case "startsWith":
+			searchWord=searchWord+"%";
+			break;
+		case "contains":
+			searchWord="%"+searchWord+"%";
+			break;
+		case "endsWith":
+			searchWord="%"+searchWord;
+		}
+		return searchWord;
+	}
 }
